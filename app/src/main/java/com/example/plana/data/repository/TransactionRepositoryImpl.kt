@@ -7,9 +7,8 @@ import com.example.plana.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.Instant
-import javax.inject.Inject
 
-class TransactionRepositoryImpl @Inject constructor(
+class TransactionRepositoryImpl(
     private val transactionDao: TransactionDao
 ) : TransactionRepository {
     override fun observeAll(): Flow<List<Transaction>> =

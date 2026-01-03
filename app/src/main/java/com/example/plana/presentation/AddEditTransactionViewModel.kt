@@ -7,7 +7,6 @@ import com.example.plana.domain.model.TransactionType
 import com.example.plana.domain.repository.CategoryRepository
 import com.example.plana.domain.repository.SettingsRepository
 import com.example.plana.domain.usecase.AddTransactionUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,10 +14,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.Instant
-import javax.inject.Inject
 
-@HiltViewModel
-class AddEditTransactionViewModel @Inject constructor(
+class AddEditTransactionViewModel(
     private val addTransactionUseCase: AddTransactionUseCase,
     categoryRepository: CategoryRepository,
     settingsRepository: SettingsRepository

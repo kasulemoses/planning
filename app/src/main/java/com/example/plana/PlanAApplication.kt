@@ -1,7 +1,14 @@
 package com.example.plana
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.example.plana.di.AppContainer
 
-@HiltAndroidApp
-class PlanAApplication : Application()
+class PlanAApplication : Application() {
+    lateinit var container: AppContainer
+        private set
+
+    override fun onCreate() {
+        super.onCreate()
+        container = AppContainer(this)
+    }
+}

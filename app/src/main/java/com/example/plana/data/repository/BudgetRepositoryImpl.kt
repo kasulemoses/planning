@@ -6,9 +6,8 @@ import com.example.plana.domain.repository.BudgetRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
-import javax.inject.Inject
 
-class BudgetRepositoryImpl @Inject constructor(
+class BudgetRepositoryImpl(
     private val budgetDao: BudgetDao
 ) : BudgetRepository {
     override fun observeAll(): Flow<List<Budget>> =

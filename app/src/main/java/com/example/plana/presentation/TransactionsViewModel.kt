@@ -4,16 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plana.domain.repository.TransactionRepository
 import com.example.plana.presentation.state.TransactionsUiState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
 import java.time.ZoneId
-import javax.inject.Inject
 
-@HiltViewModel
-class TransactionsViewModel @Inject constructor(
+class TransactionsViewModel(
     transactionRepository: TransactionRepository
 ) : ViewModel() {
     private val zoneId = ZoneId.systemDefault()
