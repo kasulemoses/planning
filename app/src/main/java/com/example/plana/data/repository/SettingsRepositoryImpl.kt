@@ -3,9 +3,8 @@ package com.example.plana.data.repository
 import com.example.plana.data.preferences.SettingsDataStore
 import com.example.plana.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-class SettingsRepositoryImpl @Inject constructor(
+class SettingsRepositoryImpl(
     private val settingsDataStore: SettingsDataStore
 ) : SettingsRepository {
     override val currency: Flow<String> = settingsDataStore.currency

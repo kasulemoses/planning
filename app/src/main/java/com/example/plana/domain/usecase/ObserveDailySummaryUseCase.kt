@@ -6,9 +6,8 @@ import kotlinx.coroutines.flow.combine
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import javax.inject.Inject
 
-class ObserveDailySummaryUseCase @Inject constructor(
+class ObserveDailySummaryUseCase(
     private val transactionRepository: TransactionRepository
 ) {
     operator fun invoke(zoneId: ZoneId = ZoneId.systemDefault()): Flow<DailySummary> {

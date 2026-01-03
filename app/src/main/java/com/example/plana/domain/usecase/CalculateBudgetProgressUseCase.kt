@@ -6,9 +6,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.ZoneId
-import javax.inject.Inject
 
-class CalculateBudgetProgressUseCase @Inject constructor(
+class CalculateBudgetProgressUseCase(
     private val transactionRepository: TransactionRepository
 ) {
     operator fun invoke(budget: Budget, zoneId: ZoneId = ZoneId.systemDefault()): Flow<BudgetProgress> {

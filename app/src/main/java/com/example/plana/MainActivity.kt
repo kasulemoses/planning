@@ -24,23 +24,22 @@ import androidx.navigation.compose.rememberNavController
 import com.example.plana.presentation.navigation.PlanANavHost
 import com.example.plana.presentation.navigation.Screen
 import com.example.plana.ui.theme.PlanATheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             PlanATheme {
-                PlanAApp()
+                val app = application as PlanAApplication
+                PlanAApp(app)
             }
         }
     }
 }
 
 @Composable
-fun PlanAApp() {
+fun PlanAApp(app: PlanAApplication) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -70,7 +69,11 @@ fun PlanAApp() {
             }
         }
     ) { padding ->
-        PlanANavHost(navController = navController, modifier = Modifier.padding(padding))
+        PlanANavHost(
+            navController = navController,
+            modifier = Modifier.padding(padding),
+            appContainer = app.container
+        )
     }
 }
 

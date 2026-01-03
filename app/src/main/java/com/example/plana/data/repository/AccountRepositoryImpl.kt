@@ -5,9 +5,8 @@ import com.example.plana.domain.model.Account
 import com.example.plana.domain.repository.AccountRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class AccountRepositoryImpl @Inject constructor(
+class AccountRepositoryImpl(
     private val accountDao: AccountDao
 ) : AccountRepository {
     override fun observeActive(): Flow<List<Account>> =

@@ -6,16 +6,13 @@ import com.example.plana.domain.repository.SettingsRepository
 import com.example.plana.domain.repository.TransactionRepository
 import com.example.plana.domain.usecase.ObserveDailySummaryUseCase
 import com.example.plana.presentation.state.HomeUiState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
 import java.time.ZoneId
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel(
     observeDailySummaryUseCase: ObserveDailySummaryUseCase,
     transactionRepository: TransactionRepository,
     settingsRepository: SettingsRepository
