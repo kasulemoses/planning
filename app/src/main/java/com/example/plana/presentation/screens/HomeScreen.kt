@@ -3,6 +3,7 @@ package com.example.plana.presentation.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -166,7 +167,7 @@ private fun SummaryRow(
 }
 
 @Composable
-private fun SummaryCard(title: String, value: String) {
+private fun RowScope.SummaryCard(title: String, value: String) {
     Card(
         modifier = Modifier.weight(1f),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
