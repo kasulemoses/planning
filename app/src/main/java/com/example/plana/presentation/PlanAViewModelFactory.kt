@@ -21,6 +21,12 @@ class PlanAViewModelFactory(
                     transactionRepository = appContainer.transactionRepository
                 )
             }
+            modelClass.isAssignableFrom(CalendarViewModel::class.java) -> {
+                CalendarViewModel(
+                    transactionRepository = appContainer.transactionRepository,
+                    settingsRepository = appContainer.settingsRepository
+                )
+            }
             modelClass.isAssignableFrom(AddEditTransactionViewModel::class.java) -> {
                 AddEditTransactionViewModel(
                     addTransactionUseCase = appContainer.addTransactionUseCase,
