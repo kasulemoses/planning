@@ -3,14 +3,20 @@ package com.example.plana.presentation.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.stickyHeader
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +38,9 @@ import java.time.ZoneId
 @Composable
 fun TransactionsScreen(
     uiState: StateFlow<TransactionsUiState>,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onEdit: (Long) -> Unit,
+    onDelete: (Transaction) -> Unit
 ) {
     val state by uiState.collectAsState()
 
@@ -50,6 +58,8 @@ fun TransactionsScreen(
     ) { padding ->
         TransactionList(
             transactions = state.transactions,
+            onEdit = onEdit,
+            onDelete = onDelete,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
@@ -58,7 +68,12 @@ fun TransactionsScreen(
 }
 
 @Composable
-private fun TransactionList(transactions: List<Transaction>, modifier: Modifier = Modifier) {
+private fun TransactionList(
+    transactions: List<Transaction>,
+    onEdit: (Long) -> Unit,
+    onDelete: (Transaction) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val zoneId = ZoneId.systemDefault()
     val grouped = transactions.groupBy { it.datetime.atZone(zoneId).toLocalDate() }
 
@@ -78,20 +93,45 @@ private fun TransactionList(transactions: List<Transaction>, modifier: Modifier 
                 )
             }
             items(items) { item ->
-                TransactionRow(transaction = item)
+                TransactionRow(
+                    transaction = item,
+                    onEdit = { onEdit(item.id) },
+                    onDelete = { onDelete(item) }
+                )
             }
         }
     }
 }
 
 @Composable
-private fun TransactionRow(transaction: Transaction) {
-    Column(
+private fun TransactionRow(
+    transaction: Transaction,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        Text(transaction.note ?: "No note", style = MaterialTheme.typography.titleMedium)
-        Text("${transaction.type} · ${String.format("%,.2f", transaction.amount)}")
+        Column(modifier = Modifier.weight(1f)) {
+            Text(transaction.note ?: "No note", style = MaterialTheme.typography.titleMedium)
+            Text("${transaction.type} · ${String.format("%,.2f", transaction.amount)}")
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        IconButton(onClick = onEdit) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Edit transaction",
+                modifier = Modifier.size(20.dp)
+            )
+        }
+        IconButton(onClick = onDelete) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete transaction",
+                modifier = Modifier.size(20.dp)
+            )
+        }
     }
 }

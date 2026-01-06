@@ -1,12 +1,14 @@
 package com.example.plana.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.plana.di.AppContainer
 import com.example.plana.presentation.AddEditTransactionViewModel
 import com.example.plana.presentation.HomeViewModel
@@ -37,7 +39,7 @@ fun PlanANavHost(
             val viewModel: HomeViewModel = viewModel(factory = viewModelFactory)
             HomeScreen(
                 uiState = viewModel.uiState,
-                onAddTransaction = { navController.navigate(Screen.AddTransaction.route) },
+                onAddTransaction = { navController.navigate(Screen.AddTransaction.createRoute()) },
                 onViewTransactions = { navController.navigate(Screen.Transactions.route) },
                 onOpenSettings = { navController.navigate(Screen.Settings.route) }
             )
@@ -46,11 +48,22 @@ fun PlanANavHost(
             val viewModel: TransactionsViewModel = viewModel(factory = viewModelFactory)
             TransactionsScreen(
                 uiState = viewModel.uiState,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onEdit = { transactionId ->
+                    navController.navigate(Screen.AddTransaction.createRoute(transactionId))
+                },
+                onDelete = viewModel::deleteTransaction
             )
         }
-        composable(Screen.AddTransaction.route) {
+        composable(
+            Screen.AddTransaction.route,
+            arguments = listOf(navArgument("transactionId") { nullable = true })
+        ) { backStackEntry ->
             val viewModel: AddEditTransactionViewModel = viewModel(factory = viewModelFactory)
+            val transactionId = backStackEntry.arguments?.getString("transactionId")?.toLongOrNull()
+            LaunchedEffect(transactionId) {
+                viewModel.loadTransaction(transactionId)
+            }
             AddEditTransactionScreen(
                 uiState = viewModel.uiState,
                 onSave = { viewModel.save { navController.popBackStack() } },

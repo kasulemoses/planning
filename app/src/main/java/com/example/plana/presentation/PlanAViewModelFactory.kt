@@ -18,12 +18,14 @@ class PlanAViewModelFactory(
             }
             modelClass.isAssignableFrom(TransactionsViewModel::class.java) -> {
                 TransactionsViewModel(
-                    transactionRepository = appContainer.transactionRepository
+                    transactionRepository = appContainer.transactionRepository,
+                    deleteTransactionUseCase = appContainer.deleteTransactionUseCase
                 )
             }
             modelClass.isAssignableFrom(AddEditTransactionViewModel::class.java) -> {
                 AddEditTransactionViewModel(
                     addTransactionUseCase = appContainer.addTransactionUseCase,
+                    transactionRepository = appContainer.transactionRepository,
                     categoryRepository = appContainer.categoryRepository,
                     settingsRepository = appContainer.settingsRepository
                 )
