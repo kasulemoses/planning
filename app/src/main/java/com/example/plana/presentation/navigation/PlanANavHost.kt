@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.plana.di.AppContainer
 import com.example.plana.presentation.AddEditTransactionViewModel
+import com.example.plana.presentation.CalendarViewModel
 import com.example.plana.presentation.HomeViewModel
 import com.example.plana.presentation.PlanAViewModelFactory
 import com.example.plana.presentation.SettingsViewModel
@@ -76,7 +77,14 @@ fun PlanANavHost(
         }
         composable(Screen.Budgets.route) { BudgetsScreen() }
         composable(Screen.Analytics.route) { AnalyticsScreen() }
-        composable(Screen.Calendar.route) { CalendarScreen() }
+        composable(Screen.Calendar.route) {
+            val viewModel: CalendarViewModel = viewModel(factory = viewModelFactory)
+            CalendarScreen(
+                uiState = viewModel.uiState,
+                onPreviousMonth = viewModel::goToPreviousMonth,
+                onNextMonth = viewModel::goToNextMonth
+            )
+        }
         composable(Screen.Settings.route) {
             val viewModel: SettingsViewModel = viewModel(factory = viewModelFactory)
             SettingsScreen(
